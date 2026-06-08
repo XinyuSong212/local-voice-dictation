@@ -1,0 +1,14 @@
+# 模型文件 (体积大, 首次运行自动下载, 不入库)
+models/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# 日志 / 临时
+*.log
+*.tmp

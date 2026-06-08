@@ -1,0 +1,21 @@
+{
+  "hotkey": "f9",
+  "mode": "toggle",
+  "engine": "whisper",
+  "beam_size": 1,
+  "model": "large-v3",
+  "model_dir": "D:\\ToolDev\\voice-input\\models",
+  "device": "auto",
+  "compute_type": "auto",
+  "language": null,
+  "initial_prompt": "以下是普通话和英文混合的句子。",
+  "sensevoice_dir": "D:\\ToolDev\\voice-input\\models\\sensevoice",
+  "sensevoice_language": "auto",
+  "use_itn": true,
+  "num_threads": 4,
+  "suppress_hotkey": true,
+  "paste_mode": true,
+  "restore_clipboard": true,
+  "beep": true,
+  "min_record_seconds": 0.3
+}

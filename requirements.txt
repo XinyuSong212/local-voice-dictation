@@ -1,0 +1,14 @@
+# 核心依赖
+faster-whisper
+sounddevice
+numpy
+keyboard
+pyperclip
+
+# NVIDIA GPU 加速 (faster-whisper 在 CUDA 上跑 large-v3)
+nvidia-cublas-cu12
+nvidia-cudnn-cu12
+
+# 可选: SenseVoice 引擎 (更快更小, engine=sensevoice 时使用)
+sherpa-onnx
+huggingface-hub
