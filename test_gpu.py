@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 """快速自检: CUDA 是否可用, 不下载模型。"""
-import voice_input  # 触发 _register_cuda_dlls()
+
 import ctranslate2
 
 n = ctranslate2.get_cuda_device_count()

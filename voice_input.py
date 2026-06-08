@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 全局热键语音听写工具 (本地离线 Whisper)
 按住热键说话 -> 松开后转写 -> 文字自动输入到当前光标处。
@@ -7,12 +6,12 @@
 GPU:  nvidia-cublas-cu12 nvidia-cudnn-cu12
 """
 
-import os
-import sys
 import json
-import time
-import threading
+import os
 import queue
+import sys
+import threading
+import time
 
 # 让控制台正确显示中文 (Windows 默认 cp936 会乱码)
 for _stream in (sys.stdout, sys.stderr):
@@ -20,6 +19,7 @@ for _stream in (sys.stdout, sys.stderr):
         _stream.reconfigure(encoding="utf-8")
     except Exception:
         pass
+
 
 # ---------------------------------------------------------------------------
 # 让 ctranslate2 在 Windows 上能找到 pip 安装的 CUDA / cuDNN DLL。
@@ -47,10 +47,10 @@ def _register_cuda_dlls():
 
 _register_cuda_dlls()
 
-import numpy as np
-import sounddevice as sd
 import keyboard
+import numpy as np
 import pyperclip
+import sounddevice as sd
 
 try:
     import winsound
@@ -61,26 +61,28 @@ try:
         except RuntimeError:
             pass
 except ImportError:  # 非 Windows
+
     def beep(freq, dur):
         pass
 
 
 SAMPLE_RATE = 16000
-CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH = os.path.join(BASE_DIR, "config.json")
 
 DEFAULTS = {
     "hotkey": "f9",
     "mode": "toggle",
-    "engine": "whisper",            # "whisper" | "sensevoice"
+    "engine": "whisper",  # "whisper" | "sensevoice"
     "beam_size": 1,
     "model": "large-v3",
-    "model_dir": "D:\\ToolDev\\voice-input\\models",
+    "model_dir": os.path.join(BASE_DIR, "models"),
     "device": "auto",
     "compute_type": "auto",
     "language": None,
     "initial_prompt": "以下是普通话和英文混合的句子。",
     # SenseVoice (可选引擎) 相关
-    "sensevoice_dir": "D:\\ToolDev\\voice-input\\models\\sensevoice",
+    "sensevoice_dir": os.path.join(BASE_DIR, "models", "sensevoice"),
     "sensevoice_language": "auto",
     "use_itn": True,
     "num_threads": 4,
@@ -96,7 +98,7 @@ def load_config():
     cfg = dict(DEFAULTS)
     if os.path.exists(CONFIG_PATH):
         try:
-            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            with open(CONFIG_PATH, encoding="utf-8") as f:
                 cfg.update(json.load(f))
         except Exception as e:
             print(f"[警告] 读取 config.json 失败,使用默认配置: {e}")
@@ -228,13 +230,17 @@ class WhisperEngine:
         t0 = time.time()
         try:
             self.model = WhisperModel(
-                self.cfg["model"], device=device, compute_type=compute_type,
+                self.cfg["model"],
+                device=device,
+                compute_type=compute_type,
                 download_root=model_dir,
             )
         except Exception as e:
             print(f"[模型] GPU 加载失败 ({e}),回退到 CPU ...")
             self.model = WhisperModel(
-                self.cfg["model"], device="cpu", compute_type="int8",
+                self.cfg["model"],
+                device="cpu",
+                compute_type="int8",
                 download_root=model_dir,
             )
             device = "cpu"

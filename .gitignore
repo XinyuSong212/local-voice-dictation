@@ -1,5 +1,8 @@
-# 模型文件 (体积大, 首次运行自动下载, 不入库)
+# Models (large, auto-downloaded on first run)
 models/
+
+# Local config with machine-specific paths (use config.example.json as template)
+config.json
 
 # Python
 __pycache__/
@@ -9,6 +12,6 @@ __pycache__/
 .venv/
 venv/
 
-# 日志 / 临时
+# Logs / temp
 *.log
 *.tmp

@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 """冒烟测试: 不用麦克风, 验证两个引擎都能加载并跑通转写。"""
+
 import numpy as np
-from voice_input import load_config, build_engine
+
+from voice_input import build_engine, load_config
 
 audio = (np.random.randn(16000 * 2) * 0.001).astype(np.float32)  # 2s 轻噪声
 
